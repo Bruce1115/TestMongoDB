@@ -19,7 +19,7 @@ public class AppMongo {
 		AbstractApplicationContext ctx = new ClassPathXmlApplicationContext("springmgo.xml");
 		UserService service = (UserService) ctx.getBean(UserService.class);
 		UserInfo user = new UserInfo();
-		user.setName("王五");
+		user.setName("王五"); 
 		user.setAge(29);
 		user.setBirth(new Timestamp(System.currentTimeMillis()));
 		List<UserInfo> list = null; 

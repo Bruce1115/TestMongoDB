@@ -22,7 +22,7 @@ public class AppMongo {
 		user.setName("ÍõÎå");
 		user.setAge(29);
 		user.setBirth(new Timestamp(System.currentTimeMillis()));
-		List<UserInfo> list = null;
+		List<UserInfo> list = null; 
 		try {
 			list = service.findAll();
 		} catch (Exception e) {

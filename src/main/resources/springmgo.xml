@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xsi:schemaLocation="http://www.springframework.org/schema/context
+						http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/data/mongo
+						http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
+						http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 读取属性文件 -->
+	<context:property-placeholder
+		location="classpath:db.properties" />
+
+	<!-- 启用注解支持 -->
+	<context:annotation-config />
+
+	<!-- 扫描组件包 -->
+	<context:component-scan base-package="mongo" />
+
+	<!-- 默认Mongo类型映射类 -->
+	<bean name="defaultMongoTypeMapper"
+		class="org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper">
+		<!-- 去除默认生成“_class”字段的关键，即：将该类带有typeKey参数的构造函数的参数值设置为null即可 -->
+		<constructor-arg name="typeKey">
+			<null />
+		</constructor-arg>
+	</bean>
+
+	<!-- MongoDB类型转换器，可自定义扩展类型之间的转换，注意“type-mapper-ref”属性 -->
+	<mongo:mapping-converter id="mongoConverter"
+		type-mapper-ref="defaultMongoTypeMapper">
+		<mongo:custom-converters>
+			<mongo:converter>
+				<bean class="mongo.converter.TimestampConverter" />
+			</mongo:converter>
+			<!-- allow more... -->
+		</mongo:custom-converters>
+	</mongo:mapping-converter>
+
+	<mongo:mongo-client id="mongoClient"
+		host="${mongo.host}" port="${mongo.port}"
+		credentials="${mongo.username}:${mongo.password}@${mongo.dbname}"
+		replica-set="">
+		<mongo:client-options
+			connections-per-host="${mongo.connectionsPerHost}"
+			threads-allowed-to-block-for-connection-multiplier="${mongo.threadsAllowedToBlockForConnectionMultiplier}"
+			connect-timeout="${mongo.connectTimeout}" 
+			max-wait-time="${mongo.maxWaitTime}"			
+			socket-keep-alive="${mongo.socketKeepAlive}"
+			socket-timeout="${mongo.socketTimeout}" 
+		 />
+	</mongo:mongo-client>
+
+	<mongo:db-factory id="mongoDbFactory"
+		dbname="${mongo.dbname}" mongo-ref="mongoClient" />
+
+	<bean id="mongoTemplate"
+		class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg name="mongoDbFactory"
+			ref="mongoDbFactory" />
+		<constructor-arg name="mongoConverter"
+			ref="mongoConverter" />
+	</bean>
+
+</beans>

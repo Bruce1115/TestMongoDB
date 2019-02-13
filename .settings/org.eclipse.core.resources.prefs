@@ -1,0 +1,12 @@
+eclipse.preferences.version=1
+encoding//src/main/java/mongo/converter/TimestampConverter.java=UTF-8
+encoding//src/main/java/mongo/dao/IBaseDao.java=UTF-8
+encoding//src/main/java/mongo/dao/IUserDao.java=UTF-8
+encoding//src/main/java/mongo/dao/impl/BaseDaoImpl.java=UTF-8
+encoding//src/main/java/mongo/dao/impl/UserDaoImpl.java=UTF-8
+encoding//src/main/java/mongo/entity/UserInfo.java=UTF-8
+encoding//src/main/java/mongo/service/BaseService.java=UTF-8
+encoding//src/main/java/mongo/service/UserService.java=UTF-8
+encoding//src/main/java/mongo/test/UserServiceTest.java=UTF-8
+encoding//src/main/java/mongo/util/EmptyUtil.java=UTF-8
+encoding//src/main/java/mongo/util/PageModel.java=UTF-8
